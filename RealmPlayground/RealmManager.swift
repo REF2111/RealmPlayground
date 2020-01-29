@@ -13,38 +13,23 @@ import RealmSwift
 class RealmManager {
     
     static let shared = RealmManager()
-    private let dispatchQueue = RealmDispatchQueueProvider().dispatchQueue
-    
     private init() {}
     
-    func add(dog: Dog) {
+    func add<T: Object>(_ object: T) {
         
-        dog.uuid = UUID().uuidString
         let realm = try! Realm()
         try! realm.write {
-            realm.add(dog, update: .modified)
+            realm.add(object, update: .modified)
         }
     }
     
-    func fetchAndDeleteDogs() {
+    func deleteAll<T: Object>(_ object: T.Type, cascading: Bool = true) {
         
         let realm = try! Realm()
-        let dogs = realm.objects(Dog.self)
+        let dogs = realm.objects(object)
         
         try! realm.write {
-            realm.delete(dogs, cascading: true)
-        }
-    }
-    
-    func deleteOnlyThis() {
-        
-        let realm = try! Realm()
-        let dogs = realm.objects(Dog.self)
-        if let myDog = dogs.first(where: { $0.uuid == "B71E2D51-BCC3-4133-938A-3719D20B334F" }) {
-            
-            try! realm.write {
-                realm.delete(myDog, cascading: true)
-            }
+            realm.delete(dogs, cascading: cascading)
         }
     }
     

@@ -12,10 +12,13 @@ import RealmSwift
 
 class ViewController: UIViewController {
 
+    private var timer: Timer!
+
     @IBAction func saveOrSomething(_ sender: Any) {
 
         //        doRealmStuff()
-        download()
+//        download()
+        startTimer()
     }
 
     @IBAction func deleteSomething(_ sender: Any) {
@@ -35,12 +38,19 @@ class ViewController: UIViewController {
         myDog.age = 1
         myDog.parasite = parasite
 
-        RealmManager.shared.add(dog: myDog)
+        RealmManager.shared.add(myDog)
     }
 
     private func fetchAndDelete() {
 
-        RealmManager.shared.fetchAndDeleteDogs()
+        RealmManager.shared.deleteAll(Dog.self)
+    }
+
+    private func startTimer() {
+
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] timer in
+            self?.download()
+        })
     }
 
     private func download() {
@@ -51,7 +61,9 @@ class ViewController: UIViewController {
 
             do {
                 let dog = try JSONDecoder().decode(Dog.self, from: data)
-                RealmManager.shared.add(dog: dog)
+                dog.uuid = UUID().uuidString
+                dog.parasite?.uuid = UUID().uuidString
+                RealmManager.shared.add(dog)
             } catch {
                 print(error)
             }

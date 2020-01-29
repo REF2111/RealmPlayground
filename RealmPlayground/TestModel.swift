@@ -12,10 +12,21 @@ import RealmSwift
 
 class Dog: Object, Codable {
 
-    @objc dynamic var uuid: String = UUID().uuidString
+    @objc dynamic var uuid: String = String()
     @objc dynamic var name: String = String()
     @objc dynamic var age: Int = .zero
     @objc dynamic var parasite: Parasite?
+
+    convenience init(name: String,
+         age: Int,
+         parasite: Parasite?) {
+
+        self.init()
+        self.uuid = UUID().uuidString
+        self.name = name
+        self.age = age
+        self.parasite = parasite
+    }
 
     override class func primaryKey() -> String? {
 
@@ -27,7 +38,7 @@ class Dog: Object, Codable {
 
 class Parasite: Object, Codable {
 
-    @objc dynamic var uuid: String = UUID().uuidString
+    @objc dynamic var uuid: String = String()
     @objc dynamic var name: String = String()
     @objc dynamic var age: Int = .zero
 
