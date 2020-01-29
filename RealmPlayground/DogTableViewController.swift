@@ -42,6 +42,8 @@ class DogTableViewController: UITableViewController {
         let dog = dogs[indexPath.row]
 
         let cell = UITableViewCell()
+        cell.textLabel?.adjustsFontSizeToFitWidth = true
+        cell.textLabel?.minimumScaleFactor = 0.5
         cell.textLabel?.text = dog.uuid
 
         return cell
