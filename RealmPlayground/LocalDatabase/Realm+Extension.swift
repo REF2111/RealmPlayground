@@ -31,7 +31,9 @@ extension Realm: CascadeDeleting {
 }
 
 private extension Realm {
+
     private func cascadeDelete(_ entity: RLMObjectBase) {
+
         guard let entity = entity as? Object else { return }
         var toBeDeleted = Set<RLMObjectBase>()
         toBeDeleted.insert(entity)
@@ -43,6 +45,7 @@ private extension Realm {
     }
 
     private func resolve(element: Object, toBeDeleted: inout Set<RLMObjectBase>) {
+        
         element.objectSchema.properties.forEach {
             guard let value = element.value(forKey: $0.name) else { return }
             if let entity = value as? RLMObjectBase {
@@ -57,4 +60,5 @@ private extension Realm {
         }
         delete(element)
     }
+
 }
