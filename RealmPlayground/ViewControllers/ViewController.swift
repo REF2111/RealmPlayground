@@ -16,39 +16,22 @@ class ViewController: UIViewController {
 
     @IBAction func saveOrSomething(_ sender: Any) {
 
-        //        doRealmStuff()
-//        download()
         startTimer()
     }
 
     @IBAction func deleteSomething(_ sender: Any) {
-
-        fetchAndDelete()
-//        RealmManager.shared.deleteOnlyThis()
-    }
-
-    private func doRealmStuff() {
-
-        let parasite = Parasite()
-        parasite.name = "Wurm"
-        parasite.age = 10
-
-        let myDog = Dog()
-        myDog.name = "Rex"
-        myDog.age = 1
-        myDog.parasite = parasite
-
-        RealmManager.shared.add(myDog)
-    }
-
-    private func fetchAndDelete() {
 
         RealmManager.shared.deleteAll(Dog.self)
     }
 
     private func startTimer() {
 
-        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] timer in
+        timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true, block: { [weak self] timer in
+
+            let parasite = Parasite(name: "Pary", age: 915)
+            let dog = Dog(name: "Doggy", age: 12, parasite: parasite)
+            RealmManager.shared.add(dog)
+
             self?.download()
         })
     }
@@ -61,8 +44,6 @@ class ViewController: UIViewController {
 
             do {
                 let dog = try JSONDecoder().decode(Dog.self, from: data)
-                dog.uuid = UUID().uuidString
-                dog.parasite?.uuid = UUID().uuidString
                 RealmManager.shared.add(dog)
             } catch {
                 print(error)

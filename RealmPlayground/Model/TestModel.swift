@@ -18,8 +18,8 @@ class Dog: Object, Codable {
     @objc dynamic var parasite: Parasite?
 
     convenience init(name: String,
-         age: Int,
-         parasite: Parasite?) {
+                     age: Int,
+                     parasite: Parasite?) {
 
         self.init()
         self.uuid = UUID().uuidString
@@ -41,6 +41,15 @@ class Parasite: Object, Codable {
     @objc dynamic var uuid: String = String()
     @objc dynamic var name: String = String()
     @objc dynamic var age: Int = .zero
+
+    convenience init(name: String,
+                     age: Int) {
+
+        self.init()
+        self.uuid = UUID().uuidString
+        self.name = name
+        self.age = age
+    }
 
     override class func primaryKey() -> String? {
 
