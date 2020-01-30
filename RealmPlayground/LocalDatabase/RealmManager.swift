@@ -22,11 +22,19 @@ class RealmManager {
         return realm.objects(object)
     }
     
-    func add<T: Object>(_ object: T) {
+    func addOrUpdate<T: Object>(_ object: T) {
         
         let realm = try! Realm()
         try! realm.write {
             realm.add(object, update: .modified)
+        }
+    }
+
+    func addOrUpdate<T: Object>(_ objects: [T]) {
+
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(objects, update: .modified)
         }
     }
     

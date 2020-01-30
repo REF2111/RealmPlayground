@@ -12,9 +12,18 @@ import RealmSwift
 
 class ViewController: UIViewController {
 
-    private var timer: Timer!
+    private var timer: Timer?
 
     @IBAction func saveOrSomething(_ sender: Any) {
+
+        var dogs = [Dog]()
+        for _ in 1...1000 {
+            let parasite = Parasite(name: "Pary", age: 915)
+            let dog = Dog(name: "Doggy", age: 1, parasite: parasite)
+
+            dogs.append(dog)
+        }
+        RealmManager.shared.addOrUpdate(dogs)
 
         startTimer()
     }
@@ -26,14 +35,16 @@ class ViewController: UIViewController {
 
     private func startTimer() {
 
-        timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true, block: { [weak self] timer in
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] timer in
 
             let parasite = Parasite(name: "Pary", age: 915)
             let dog = Dog(name: "Doggy", age: 1, parasite: parasite)
-            RealmManager.shared.add(dog)
+            RealmManager.shared.addOrUpdate(dog)
 
             self?.download()
         })
+        timer?.fire()
     }
 
     private func download() {
@@ -44,7 +55,7 @@ class ViewController: UIViewController {
 
             do {
                 let dog = try JSONDecoder().decode(Dog.self, from: data)
-                RealmManager.shared.add(dog)
+                RealmManager.shared.addOrUpdate(dog)
             } catch {
                 print(error)
             }
