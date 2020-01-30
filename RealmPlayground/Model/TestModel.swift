@@ -12,10 +12,10 @@ import RealmSwift
 
 class Dog: Object, Codable {
 
-    @objc dynamic var uuid: String = String()
-    @objc dynamic var name: String = String()
-    @objc dynamic var age: Int = .zero
-    @objc dynamic var parasite: Parasite?
+    @objc private(set) dynamic var uuid: String = String()
+    @objc private(set) dynamic var name: String = String()
+    @objc private(set) dynamic var age: Int = .zero
+    @objc private(set) dynamic var parasite: Parasite?
 
     convenience init(name: String,
                      age: Int,
@@ -38,9 +38,9 @@ class Dog: Object, Codable {
 
 class Parasite: Object, Codable {
 
-    @objc dynamic var uuid: String = String()
-    @objc dynamic var name: String = String()
-    @objc dynamic var age: Int = .zero
+    @objc private(set) dynamic var uuid: String = String()
+    @objc private(set) dynamic var name: String = String()
+    @objc private(set) dynamic var age: Int = .zero
 
     convenience init(name: String,
                      age: Int) {

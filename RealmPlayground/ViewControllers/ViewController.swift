@@ -29,7 +29,7 @@ class ViewController: UIViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 2.5, repeats: true, block: { [weak self] timer in
 
             let parasite = Parasite(name: "Pary", age: 915)
-            let dog = Dog(name: "Doggy", age: 12, parasite: parasite)
+            let dog = Dog(name: "Doggy", age: 1, parasite: parasite)
             RealmManager.shared.add(dog)
 
             self?.download()
