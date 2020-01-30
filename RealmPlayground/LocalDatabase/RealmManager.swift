@@ -37,14 +37,22 @@ class RealmManager {
             realm.add(objects, update: .modified)
         }
     }
+
+    func deleteAll<T: Object>(_ object: T, cascading: Bool = true) {
+
+        let realm = try! Realm()
+        try! realm.write {
+            realm.delete(object, cascading: cascading)
+        }
+    }
     
     func deleteAll<T: Object>(_ object: T.Type, cascading: Bool = true) {
         
         let realm = try! Realm()
-        let dogs = realm.objects(object)
+        let objects = realm.objects(object)
         
         try! realm.write {
-            realm.delete(dogs, cascading: cascading)
+            realm.delete(objects, cascading: cascading)
         }
     }
     
