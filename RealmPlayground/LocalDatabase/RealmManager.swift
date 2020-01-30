@@ -14,6 +14,13 @@ class RealmManager {
     
     static let shared = RealmManager()
     private init() {}
+
+    func all<T: Object>(_ object: T.Type) -> Results<T> {
+
+        let realm = try! Realm()
+
+        return realm.objects(object)
+    }
     
     func add<T: Object>(_ object: T) {
         

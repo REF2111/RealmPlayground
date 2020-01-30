@@ -20,9 +20,7 @@ class DogTableViewController: UITableViewController {
 
         super.viewDidLoad()
 
-        let realm = try! Realm()
-
-        dogs = realm.objects(Dog.self).sorted(byKeyPath: Dog.primaryKey()! , ascending: true)
+        dogs = RealmManager.shared.all(Dog.self).sorted(byKeyPath: Dog.primaryKey()! , ascending: true)
         notificationToken = dogs.observe { [weak self] changes in
             self?.tableView.applyChanges(changes: changes)
         }
