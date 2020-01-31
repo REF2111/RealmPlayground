@@ -13,34 +13,43 @@ import RealmSwift
 class ViewController: UIViewController {
 
     private var timer: Timer?
+    private var persons = [Person]()
 
     @IBAction func saveOrSomething(_ sender: Any) {
 
-        var dogs = [Dog]()
-        for _ in 1...1000 {
+        let person = Person(name: "Hansi", age: 34, dogs: List<Dog>())
+        for _ in 1...5 {
             let parasite = Parasite(name: "Pary", age: 915)
-            let dog = Dog(name: "Doggy", age: 1, parasite: parasite)
+            let dog = Dog(name: "Doggy", age: 1, parasite: parasite, owner: person)
+            let dogTwo = Dog(name: "Doggy", age: 1, parasite: parasite, owner: person)
+            let dogThree = Dog(name: "Doggy", age: 1, parasite: parasite, owner: person)
+            let dogFour = Dog(name: "Doggy", age: 1, parasite: parasite, owner: person)
 
-            dogs.append(dog)
+            person.dogs.append(dog)
+            person.dogs.append(dogTwo)
+            person.dogs.append(dogThree)
+            person.dogs.append(dogFour)
+
         }
-        RealmManager.shared.addOrUpdate(dogs)
+        RealmManager.shared.addOrUpdate(person)
+        persons.append(person)
 
         startTimer()
     }
 
     @IBAction func deleteSomething(_ sender: Any) {
 
-        RealmManager.shared.deleteAll(Dog.self)
+        RealmManager.shared.deleteAll(Person.self)
+
+//        persons.forEach { person in
+//            RealmManager.shared.deleteAllDogs(forPersonUuid: person.uuid)
+//        }
     }
 
     private func startTimer() {
 
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: true, block: { [weak self] timer in
-
-            let parasite = Parasite(name: "Pary", age: 915)
-            let dog = Dog(name: "Doggy", age: 1, parasite: parasite)
-            RealmManager.shared.addOrUpdate(dog)
 
             self?.download()
         })

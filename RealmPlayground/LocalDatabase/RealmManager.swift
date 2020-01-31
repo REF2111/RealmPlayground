@@ -45,6 +45,22 @@ class RealmManager {
             realm.delete(object, cascading: cascading)
         }
     }
+
+    func deleteAllDogs(forPersonUuid uuid: String, cascading: Bool = true) {
+
+        let realm = try! Realm()
+        let dogs = realm.objects(Dog.self)
+
+        for dog in dogs {
+            if dog.owner?.uuid == uuid {
+                try! realm.write {
+                    dog.owner = nil
+                    realm.add(dog, update: .modified)
+                    realm.delete(dog, cascading: cascading)
+                }
+            }
+        }
+    }
     
     func deleteAll<T: Object>(_ object: T.Type, cascading: Bool = true) {
         
